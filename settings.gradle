@@ -1,1 +1,4 @@
 rootProject.name = 'buslines'
+include 'contract'
+include 'impl'
+
