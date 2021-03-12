@@ -15,7 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @Data
 @Builder
-@Document(collection = "linhas")
+@Document(collection = "buslines")
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class BusLine implements Serializable {
 

@@ -2,14 +2,15 @@ package com.marcohnp.dimed.backend.buslines.contract.lines.v1.mapper;
 
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
-import lombok.AllArgsConstructor;
-import org.springframework.stereotype.Service;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@AllArgsConstructor
-@Service
+
+
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class BusLineMapper {
 
-    public BusLineResponse mapToResponse(BusLine busLine){
+    public static BusLineResponse mapToResponse(BusLine busLine){
         return BusLineResponse.builder()
                 .id(busLine.getId())
                 .code(busLine.getCode())

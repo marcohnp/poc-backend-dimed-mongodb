@@ -5,8 +5,10 @@ import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusL
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
+import org.springframework.data.domain.*;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -22,8 +24,10 @@ public class BusLinesController {
     @ApiOperation(value = "Retorna uma lista de linhas de onibus presentes na API PoaTransporte e a " +
             "salva no H2 Database.")
     @GetMapping(value="linhas")
-    public List<BusLineResponse> findAll() {
-        return busLinesContractFacade.findAll();
+    public List<BusLineResponse> findAll(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                         @RequestParam(required = false, defaultValue = "50") Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
+        return busLinesContractFacade.findAll(pageable);
     }
 
 }

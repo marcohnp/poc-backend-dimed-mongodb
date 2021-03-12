@@ -1,18 +1,20 @@
 package com.marcohnp.dimed.backend.buslines.impl.lines.integration;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
+import com.marcohnp.dimed.backend.buslines.impl.lines.model.Coordinates;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Slf4j
 @Service
@@ -32,7 +34,7 @@ public class BusLinesOperations {
                 .toString();
     }
 
-    public static String catchUriItinerario(String id) {
+    public static String uriItinerario(String id) {
         return UriComponentsBuilder.newInstance()
                 .scheme("http")
                 .host("www.poatransporte.com.br")
@@ -52,6 +54,43 @@ public class BusLinesOperations {
         }
         return Collections.emptyList();
     }
+
+    public void populateBusLineWithCoordinates(RestTemplate rest, BusLine busLine){
+        Map<Integer, Coordinates> busLineCoordinates = listBusLineCoordinates(busLine.getId(), rest);
+        List<Coordinates> coordinates = new ArrayList<>();
+        busLineCoordinates.forEach((i, c) -> coordinates.add(new Coordinates(c.getLat(), c.getLng())));
+        busLine.setCoordinates(coordinates);
+    }
+
+    private Map<Integer, Coordinates> listBusLineCoordinates(String id, RestTemplate rest) {
+        try {
+            String coordinates = getStringCoordinates(Objects.requireNonNull(rest.getForObject(
+                    uriItinerario(id), String.class)));
+            return new ObjectMapper()
+                    .readValue(coordinates, new TypeReference<Map<Integer, Coordinates>>() {
+                    });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return Collections.emptyMap();
+    }
+
+    public String getStringCoordinates(String busLinesWithCoordinates) {
+        String[] stringCoordinatesArray = busLinesWithCoordinates.split(",");
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+
+        for (int i = 3; i <= stringCoordinatesArray.length - 1; i++) {
+            builder.append(stringCoordinatesArray[i]);
+            builder.append(",");
+        }
+
+        builder.deleteCharAt(builder.lastIndexOf(","));
+
+        return builder.toString();
+    }
+
+
 
 //    public List<LinhaOnibus> createListLinhaOnibus() {
 //        return getResponseLinhaOnibus().stream()
