@@ -1,0 +1,19 @@
+package com.marcohnp.dimed.backend.buslines.contract.lines.v1.mapper;
+
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
+import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
+import lombok.AllArgsConstructor;
+import org.springframework.stereotype.Service;
+
+@AllArgsConstructor
+@Service
+public class BusLineMapper {
+
+    public BusLineResponse mapToResponse(BusLine busLine){
+        return BusLineResponse.builder()
+                .id(busLine.getId())
+                .code(busLine.getCode())
+                .name(busLine.getName())
+                .build();
+    }
+}
