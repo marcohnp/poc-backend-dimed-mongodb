@@ -3,17 +3,18 @@ package com.marcohnp.dimed.backend.buslines.impl.lines.facade;
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
 import com.marcohnp.dimed.backend.buslines.impl.lines.service.BusLineServiceImpl;
 import lombok.AllArgsConstructor;
-import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @AllArgsConstructor
 @Service
-public class BusLineFacadeImpl {
+public class BusLineImplFacade {
 
     private final BusLineServiceImpl busLineService;
 
-    public Page<BusLine> findAllBusLines(Pageable pageable){
-        return busLineService.findAllBusLines(pageable);
+    public List<BusLine> findAllBusLines(){
+        return busLineService.findAllBusLines();
     }
 
 }

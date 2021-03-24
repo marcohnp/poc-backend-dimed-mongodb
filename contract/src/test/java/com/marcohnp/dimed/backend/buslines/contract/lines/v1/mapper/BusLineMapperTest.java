@@ -1,5 +1,6 @@
 package com.marcohnp.dimed.backend.buslines.contract.lines.v1.mapper;
 
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.stub.BusLineResponseStub;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.stub.BusLineStub;
 import org.junit.jupiter.api.Test;
 
@@ -21,7 +22,7 @@ public class BusLineMapperTest {
     @Test
     void mapToResponse_must_return_response() {
         var busLine = BusLineStub.createBusLine();
-        var expected = BusLineStub.createBusLine();
+        var expected = BusLineResponseStub.createBusLineResponse();
         var actual = BusLineMapper.mapToResponse(busLine);
         assertEquals(expected, actual);
     }

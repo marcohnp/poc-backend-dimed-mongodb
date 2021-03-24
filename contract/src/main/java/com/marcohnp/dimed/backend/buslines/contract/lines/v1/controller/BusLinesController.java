@@ -1,6 +1,6 @@
 package com.marcohnp.dimed.backend.buslines.contract.lines.v1.controller;
 
-import com.marcohnp.dimed.backend.buslines.contract.lines.v1.facade.BusLinesContractFacade;
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.facade.BusLineContractFacade;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -19,15 +19,13 @@ import java.util.List;
 @RequestMapping("/v1/")
 public class BusLinesController {
 
-    private final BusLinesContractFacade busLinesContractFacade;
+    private final BusLineContractFacade busLineContractFacade;
 
     @ApiOperation(value = "Retorna uma lista de linhas de onibus presentes na API PoaTransporte e a " +
             "salva no H2 Database.")
     @GetMapping(value="linhas")
-    public List<BusLineResponse> findAll(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                         @RequestParam(required = false, defaultValue = "50") Integer size) {
-        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
-        return busLinesContractFacade.findAll(pageable);
+    public List<BusLineResponse> findAll() {
+        return busLineContractFacade.findAll();
     }
 
 }

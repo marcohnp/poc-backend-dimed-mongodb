@@ -1,4 +1,4 @@
-import org.springframework.boot.gradle.plugin.SpringBootPlugin;
+import org.springframework.boot.gradle.plugin.SpringBootPlugin
 
 plugins {
 	id "org.springframework.boot" version "2.1.15.RELEASE"
@@ -39,9 +39,13 @@ allprojects {
 		mavenCentral()
 	}
 
+	test {
+		useJUnitPlatform()
+	}
+
 	dependencies {
 		implementation 'org.springframework.boot:spring-boot-starter-web'
-		implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb', version: '2.4.3'
+		implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
 		implementation group: 'org.slf4j', name: 'slf4j-api', version: '1.7.30'
 		implementation group: 'org.springframework.boot', name: 'spring-boot-starter-validation', version: '2.4.3'
 		implementation 'org.springframework.boot:spring-boot-starter-validation'
@@ -66,11 +70,10 @@ apply plugin: 'org.springframework.boot'
 dependencies {
 	implementation project(':contract')
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-data-mongodb'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
 
 }
 
-test {
-	useJUnitPlatform()
-}
+
