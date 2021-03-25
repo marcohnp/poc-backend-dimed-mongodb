@@ -1,7 +1,9 @@
 package com.marcohnp.dimed.backend.buslines.contract.lines.v1.controller;
 
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.facade.BusLineContractFacade;
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineItinerary;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
+import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.AllArgsConstructor;
@@ -21,11 +23,21 @@ public class BusLinesController {
 
     private final BusLineContractFacade busLineContractFacade;
 
-    @ApiOperation(value = "Retorna uma lista de linhas de onibus presentes na API PoaTransporte e a " +
-            "salva no H2 Database.")
+    @ApiOperation(value = "Retorna uma lista de linhas de onibus presentes na API PoaTransporte " +
+            "e que foram salvas no MongoDB")
     @GetMapping(value="linhas")
-    public List<BusLineResponse> findAll() {
-        return busLineContractFacade.findAll();
+    public List<BusLineResponse> findAll(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                         @RequestParam(required = false, defaultValue = "10") Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
+        return busLineContractFacade.findAll(pageable);
     }
 
+    @ApiOperation(value = "Retorna uma lista de linhas de onibus e seus itinerarios presentes na API PoaTransporte " +
+            "e que foram salvas no MongoDB")
+    @GetMapping(value="itinerario")
+    public List<BusLineItinerary> findAllBusLineWithItinerary(@RequestParam(required = false, defaultValue = "0") Integer page,
+                                                              @RequestParam(required = false, defaultValue = "1") Integer size) {
+        Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
+        return busLineContractFacade.findAllBusLineWithItinerary(pageable);
+    }
 }

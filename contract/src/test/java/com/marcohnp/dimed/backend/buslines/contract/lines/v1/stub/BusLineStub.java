@@ -2,9 +2,9 @@ package com.marcohnp.dimed.backend.buslines.contract.lines.v1.stub;
 
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class BusLineStub {
 
@@ -16,9 +16,9 @@ public class BusLineStub {
                 .build();
     }
 
-    public static List<BusLine> createListBusLine() {
+    public static Page<BusLine> createListBusLine() {
         var listBusLine = new ArrayList<BusLine>();
         listBusLine.add(createBusLine());
-        return listBusLine;
+        return new PageImpl<>(listBusLine);
     }
 }

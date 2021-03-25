@@ -3,6 +3,7 @@ package com.marcohnp.dimed.backend.buslines.contract.lines.v1.controller;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.facade.BusLineContractFacade;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.stub.BusLineResponseStub;
 import com.marcohnp.dimed.backend.buslines.impl.lines.facade.BusLineImplFacade;
+import org.assertj.core.util.Lists;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -10,6 +11,9 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.context.web.WebAppConfiguration;
 import org.springframework.test.web.servlet.MockMvc;
@@ -39,9 +43,12 @@ class BusLinesControllerTest {
         this.mockMvc = MockMvcBuilders.standaloneSetup(busLinesController).build();
     }
 
+    private final Pageable pageable = PageRequest.of(1, 1, Sort.by(Sort.Order.asc("name")));
+
     @Test
     void findall() throws Exception {
-        when(this.busLineContractFacade.findAll()).thenReturn(BusLineResponseStub.createListBusLineResponse());
+        when(this.busLineContractFacade.findAll(pageable))
+                .thenReturn(Lists.newArrayList(BusLineResponseStub.createListBusLineResponse()));
         this.mockMvc.perform(get("/v1/linhas"))
                 .andExpect(status().isOk());
 

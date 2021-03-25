@@ -15,6 +15,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
 
 @Slf4j
 @Service
@@ -45,6 +46,12 @@ public class BusLinesOperations {
                 .toString();
     }
 
+    public List<BusLine> getAllItinerary(RestTemplate rest, ObjectMapper mapper) {
+        return getAllBusLines(rest, mapper).stream()
+                .peek(line -> populateBusLineWithCoordinates(rest, line))
+                .collect(Collectors.toList());
+    }
+
     public List<BusLine> getAllBusLines(RestTemplate rest, ObjectMapper mapper) {
         String busLinesString = rest.getForObject(uriLinhaOnibus(), String.class);
         try {
@@ -60,16 +67,18 @@ public class BusLinesOperations {
         List<Coordinates> coordinates = new ArrayList<>();
         busLineCoordinates.forEach((i, c) -> coordinates.add(new Coordinates(c.getLat(), c.getLng())));
         busLine.setCoordinates(coordinates);
+
     }
 
     private Map<Integer, Coordinates> listBusLineCoordinates(String id, RestTemplate rest) {
         try {
-            String coordinates = getStringCoordinates(Objects.requireNonNull(rest.getForObject(
-                    uriItinerario(id), String.class)));
+            Thread.sleep(60);
+            String coordinates = getStringCoordinates(Objects.requireNonNull(
+                    rest.getForObject(uriItinerario(id), String.class)));
             return new ObjectMapper()
                     .readValue(coordinates, new TypeReference<Map<Integer, Coordinates>>() {
                     });
-        } catch (IOException e) {
+        } catch (IOException | InterruptedException e) {
             e.printStackTrace();
         }
         return Collections.emptyMap();
