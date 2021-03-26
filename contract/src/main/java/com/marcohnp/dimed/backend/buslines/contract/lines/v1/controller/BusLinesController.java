@@ -24,19 +24,19 @@ public class BusLinesController {
     private final BusLineContractFacade busLineContractFacade;
 
     @ApiOperation(value = "Retorna uma lista de linhas de onibus presentes na API PoaTransporte " +
-            "e que foram salvas no MongoDB")
+            "e que foram salvas no MongoDB. Endpoint páginado.")
     @GetMapping(value="linhas")
     public List<BusLineResponse> findAll(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                         @RequestParam(required = false, defaultValue = "10") Integer size) {
+                                         @RequestParam(required = false, defaultValue = "50") Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
         return busLineContractFacade.findAll(pageable);
     }
 
     @ApiOperation(value = "Retorna uma lista de linhas de onibus e seus itinerarios presentes na API PoaTransporte " +
-            "e que foram salvas no MongoDB")
-    @GetMapping(value="itinerario")
+            "e que foram salvas no MongoDB. Endpoint páginado.")
+    @GetMapping(value="itinerarios")
     public List<BusLineItinerary> findAllBusLineWithItinerary(@RequestParam(required = false, defaultValue = "0") Integer page,
-                                                              @RequestParam(required = false, defaultValue = "1") Integer size) {
+                                                              @RequestParam(required = false, defaultValue = "10") Integer size) {
         Pageable pageable = PageRequest.of(page, size, Sort.by(Sort.Order.asc("name")));
         return busLineContractFacade.findAllBusLineWithItinerary(pageable);
     }
