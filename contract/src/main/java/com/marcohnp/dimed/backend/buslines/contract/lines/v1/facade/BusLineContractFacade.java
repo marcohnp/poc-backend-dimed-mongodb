@@ -29,4 +29,10 @@ public class BusLineContractFacade {
                 .map(BusLineMapper::mapToBusLineItinerary)
                 .collect(Collectors.toList());
     }
+
+    public List<BusLineResponse> findByCoordinates(double lat, double lng) {
+        return busLineImplFacade.findByCoordinates(lat, lng).stream()
+                .map(BusLineMapper::mapToResponse)
+                .collect(Collectors.toList());
+    }
 }

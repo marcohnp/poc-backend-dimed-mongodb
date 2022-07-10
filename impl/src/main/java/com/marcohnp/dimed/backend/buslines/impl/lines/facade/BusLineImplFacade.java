@@ -25,4 +25,8 @@ public class BusLineImplFacade {
         return busLineItineraryService.findAllBusLinesWithItinerary(pageable);
     }
 
+
+    public List<BusLine> findByCoordinates(double lat, double lng) {
+        return busLineItineraryService.findByCoordinates(lat, lng);
+    }
 }
