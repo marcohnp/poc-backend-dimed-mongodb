@@ -1,7 +1,9 @@
 package com.marcohnp.dimed.backend.buslines.impl.lines.facade;
 
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
+import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLineLocation;
 import com.marcohnp.dimed.backend.buslines.impl.lines.service.BusLineItineraryService;
+import com.marcohnp.dimed.backend.buslines.impl.lines.service.BusLineLocationService;
 import com.marcohnp.dimed.backend.buslines.impl.lines.service.BusLineService;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -16,6 +18,7 @@ public class BusLineImplFacade {
 
     private final BusLineService busLineService;
     private final BusLineItineraryService busLineItineraryService;
+    private final BusLineLocationService busLineLocationService;
 
     public Page<BusLine> findAllBusLines(Pageable pageable){
         return busLineService.findAllBusLines(pageable);
@@ -29,4 +32,18 @@ public class BusLineImplFacade {
     public List<BusLine> findByCoordinates(double lat, double lng) {
         return busLineItineraryService.findByCoordinates(lat, lng);
     }
+
+    public List<BusLineLocation> findAllBusLineLocation() {
+        return busLineLocationService.findAllBusLineLocation();
+    }
+
+    public BusLineLocation updateBusLineLocation(double lat, double lng, String idOnibus) {
+        return busLineLocationService.updateBusLineLocation(lat, lng, idOnibus);
+    }
+
+    public BusLineLocation findBusLineLocationByIdOnibus(String idOnibus) {
+        return busLineLocationService.findBusLineLocationByIdOnibus(idOnibus);
+    }
+
+
 }

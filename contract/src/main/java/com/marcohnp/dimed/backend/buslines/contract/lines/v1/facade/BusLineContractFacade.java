@@ -2,9 +2,9 @@ package com.marcohnp.dimed.backend.buslines.contract.lines.v1.facade;
 
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.mapper.BusLineMapper;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineItinerary;
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineLocationResponse;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
 import com.marcohnp.dimed.backend.buslines.impl.lines.facade.BusLineImplFacade;
-import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
 import lombok.AllArgsConstructor;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Component;
@@ -34,5 +34,19 @@ public class BusLineContractFacade {
         return busLineImplFacade.findByCoordinates(lat, lng).stream()
                 .map(BusLineMapper::mapToResponse)
                 .collect(Collectors.toList());
+    }
+
+    public  List<BusLineLocationResponse> findAllBusLineLocation() {
+        return busLineImplFacade.findAllBusLineLocation().stream()
+                .map(BusLineMapper::mapToBusLineLocationResponse)
+                .collect(Collectors.toList());
+    }
+
+    public BusLineLocationResponse updateBusLineLocation(double lat, double lng, String idOnibus) {
+        return BusLineMapper.mapToBusLineLocationResponse(busLineImplFacade.updateBusLineLocation(lat, lng, idOnibus));
+    }
+
+    public BusLineLocationResponse findBusLineLocationByIdOnibus(String idOnibus) {
+        return BusLineMapper.mapToBusLineLocationResponse(busLineImplFacade.findBusLineLocationByIdOnibus(idOnibus));
     }
 }

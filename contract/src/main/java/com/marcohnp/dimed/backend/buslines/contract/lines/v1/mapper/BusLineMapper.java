@@ -1,8 +1,10 @@
 package com.marcohnp.dimed.backend.buslines.contract.lines.v1.mapper;
 
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineItinerary;
+import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineLocationResponse;
 import com.marcohnp.dimed.backend.buslines.contract.lines.v1.model.response.BusLineResponse;
 import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLine;
+import com.marcohnp.dimed.backend.buslines.impl.lines.model.BusLineLocation;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -25,6 +27,15 @@ public class BusLineMapper {
                 .id(busLine.getId())
                 .code(busLine.getCode())
                 .coordinates(busLine.getCoordinates())
+                .build();
+    }
+
+    public static BusLineLocationResponse mapToBusLineLocationResponse(BusLineLocation busLineLocation) {
+        return BusLineLocationResponse.builder()
+                .id(busLineLocation.getId())
+                .idOnibus(busLineLocation.getIdOnibus())
+                .ultimaPosicao(busLineLocation.getUltimaPosicao())
+                .horario(busLineLocation.getHorario())
                 .build();
     }
 }

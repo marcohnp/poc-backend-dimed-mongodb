@@ -21,6 +21,7 @@ import java.util.stream.Collectors;
 public class BusLinesOperations {
 
     private static final double RAIO = 1000;
+    private static final double DISTANCIA = 50;
 
     public static String uriLinhaOnibus() {
         return UriComponentsBuilder.newInstance()
@@ -109,6 +110,18 @@ public class BusLinesOperations {
                 return result <= RAIO;
             });
         }).collect(Collectors.toList());
+    }
+
+    public Integer encontrarPosicaoPorCoordenadas(BusLine busline, double lat, double lng) {
+        double result;
+        for (Coordinates coordenadas : busline.getCoordinates()) {
+            result = distance(lat, coordenadas.getLat(),
+                    lng, coordenadas.getLng(), 0.0, 0.0);
+            if (result <= DISTANCIA) {
+                return busline.getCoordinates().indexOf(coordenadas);
+            }
+        }
+        return null;
     }
 
     public static double distance(double lat1, double lat2, double lon1,
