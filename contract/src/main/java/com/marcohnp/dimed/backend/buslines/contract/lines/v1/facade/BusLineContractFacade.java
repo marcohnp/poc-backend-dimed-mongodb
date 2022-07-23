@@ -42,8 +42,8 @@ public class BusLineContractFacade {
                 .collect(Collectors.toList());
     }
 
-    public BusLineLocationResponse updateBusLineLocation(double lat, double lng, String idOnibus) {
-        return BusLineMapper.mapToBusLineLocationResponse(busLineImplFacade.updateBusLineLocation(lat, lng, idOnibus));
+    public BusLineLocationResponse updateBusLineLocation(String idOnibus, String linha, double raio, double lat, double lng) {
+        return BusLineMapper.mapToBusLineLocationResponse(busLineImplFacade.updateBusLineLocation(idOnibus, linha, raio, lat, lng));
     }
 
     public BusLineLocationResponse findBusLineLocationByIdOnibus(String idOnibus) {

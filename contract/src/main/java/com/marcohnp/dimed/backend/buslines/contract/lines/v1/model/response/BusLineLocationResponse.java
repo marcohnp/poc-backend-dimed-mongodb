@@ -16,6 +16,8 @@ public class BusLineLocationResponse {
 
     private String id;
     private String idOnibus;
+    private String idLinha;
+    private String nomeLinha;
     private PositionBus ultimaPosicao;
     private LocalDateTime horario;
 }

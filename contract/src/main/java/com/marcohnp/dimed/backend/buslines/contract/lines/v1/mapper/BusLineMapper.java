@@ -34,6 +34,8 @@ public class BusLineMapper {
         return BusLineLocationResponse.builder()
                 .id(busLineLocation.getId())
                 .idOnibus(busLineLocation.getIdOnibus())
+                .idLinha(busLineLocation.getIdlinha())
+                .nomeLinha(busLineLocation.getNomeLinha())
                 .ultimaPosicao(busLineLocation.getUltimaPosicao())
                 .horario(busLineLocation.getHorario())
                 .build();

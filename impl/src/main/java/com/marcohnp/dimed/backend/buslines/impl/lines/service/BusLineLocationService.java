@@ -24,19 +24,19 @@ public class BusLineLocationService {
     private final BusLineLocationRepository busLineLocationRepository;
     private final BusLinesOperations busLinesOperations;
 
-    private final static String T12 = "5116";
+    private static final String T12 = "5116";
 
     public List<BusLineLocation> findAllBusLineLocation() {
         return busLineLocationRepository.findAll();
     }
 
 
-    public BusLineLocation updateBusLineLocation(double lat, double lng, String idOnibus) {
-        BusLine onibusT12 = busLineRepository.findById(T12).orElseThrow(BusLineNotFoundException::new);
-        Integer posicicaoAtual = busLinesOperations.encontrarPosicaoPorCoordenadas(onibusT12, lat, lng);
+    public BusLineLocation updateBusLineLocation(String idOnibus, String linha, double raio, double lat, double lng) {
+        BusLine onibus = busLineRepository.findById(linha).orElseThrow(BusLineNotFoundException::new);
+        Integer posicicaoAtual = busLinesOperations.encontrarPosicaoPorCoordenadas(onibus, raio, lat, lng);
         validaPosicaoAtual(posicicaoAtual);
         BusLineLocation busLineLocation = busLineLocationRepository.findByIdOnibus(idOnibus).orElseThrow(BusLineLocationNotFoundException::new);
-        updateLocationAndHorario(onibusT12, posicicaoAtual, busLineLocation);
+        updateLocationAndHorario(onibus, posicicaoAtual, busLineLocation);
         return busLineLocationRepository.save(busLineLocation);
     }
 
@@ -46,8 +46,10 @@ public class BusLineLocationService {
         }
     }
 
-    private void updateLocationAndHorario(BusLine onibusT12, Integer posicicaoAtual, BusLineLocation busLineLocation) {
-        busLineLocation.setUltimaPosicao(buildPositionBus(onibusT12, posicicaoAtual));
+    private void updateLocationAndHorario(BusLine onibus, Integer posicicaoAtual, BusLineLocation busLineLocation) {
+        busLineLocation.setUltimaPosicao(buildPositionBus(onibus, posicicaoAtual));
+        busLineLocation.setIdlinha(onibus.getId());
+        busLineLocation.setNomeLinha(onibus.getName());
         busLineLocation.setHorario(LocalDateTime.now());
     }
 
@@ -63,10 +65,10 @@ public class BusLineLocationService {
         return busLineLocationRepository.findByIdOnibus(idOnibus).orElseThrow(BusLineLocationNotFoundException::new);
     }
 
-    public Integer saveBusLineLocation(double lat, double lng, String idOnibus) {
-        BusLine onibusT12 = busLineRepository.findById(T12).orElseThrow(BusLineNotFoundException::new);
-        Integer posicicao = busLinesOperations.encontrarPosicaoPorCoordenadas(onibusT12, lat, lng);
-        Coordinates coordenadas = onibusT12.getCoordinates().get(posicicao);
+    public Integer saveBusLineLocation(String idOnibus, String linha, double raio, double lat, double lng) {
+        BusLine onibus = busLineRepository.findById(linha).orElseThrow(BusLineNotFoundException::new);
+        Integer posicicao = busLinesOperations.encontrarPosicaoPorCoordenadas(onibus, raio, lat, lng);
+        Coordinates coordenadas = onibus.getCoordinates().get(posicicao);
         PositionBus positionBus = PositionBus.builder()
                 .posicao(posicicao)
                 .coordenadas(coordenadas)

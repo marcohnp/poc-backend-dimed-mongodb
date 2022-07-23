@@ -112,12 +112,12 @@ public class BusLinesOperations {
         }).collect(Collectors.toList());
     }
 
-    public Integer encontrarPosicaoPorCoordenadas(BusLine busline, double lat, double lng) {
+    public Integer encontrarPosicaoPorCoordenadas(BusLine busline,double raio, double lat, double lng) {
         double result;
         for (Coordinates coordenadas : busline.getCoordinates()) {
             result = distance(lat, coordenadas.getLat(),
                     lng, coordenadas.getLng(), 0.0, 0.0);
-            if (result <= DISTANCIA) {
+            if (result <= raio) {
                 return busline.getCoordinates().indexOf(coordenadas);
             }
         }

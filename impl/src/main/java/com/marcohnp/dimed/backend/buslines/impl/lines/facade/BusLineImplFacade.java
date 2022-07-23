@@ -37,8 +37,8 @@ public class BusLineImplFacade {
         return busLineLocationService.findAllBusLineLocation();
     }
 
-    public BusLineLocation updateBusLineLocation(double lat, double lng, String idOnibus) {
-        return busLineLocationService.updateBusLineLocation(lat, lng, idOnibus);
+    public BusLineLocation updateBusLineLocation(String idOnibus, String linha, double raio, double lat, double lng) {
+        return busLineLocationService.updateBusLineLocation(idOnibus, linha, raio, lat, lng);
     }
 
     public BusLineLocation findBusLineLocationByIdOnibus(String idOnibus) {

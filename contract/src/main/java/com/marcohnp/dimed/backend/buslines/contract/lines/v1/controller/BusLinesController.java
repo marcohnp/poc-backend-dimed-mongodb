@@ -61,7 +61,11 @@ public class BusLinesController {
 
     @ApiOperation(value = "Atualiza localização atual do ônibus informando latitude, longitude e idOnibus ")
     @PutMapping(value = "/location/{idOnibus}")
-    public BusLineLocationResponse updateBusLineLocation(@RequestParam double lat, @RequestParam double lng, @PathVariable String idOnibus) {
-        return busLineContractFacade.updateBusLineLocation(lat, lng, idOnibus);
+    public BusLineLocationResponse updateBusLineLocation(@PathVariable String idOnibus,
+                                                         @RequestParam String linha,
+                                                         @RequestParam Double raio,
+                                                         @RequestParam double lat,
+                                                         @RequestParam double lng) {
+        return busLineContractFacade.updateBusLineLocation(idOnibus, linha, raio, lat, lng);
     }
 }
