@@ -28,4 +28,8 @@ public class BusLineItineraryService {
         List<BusLine> buslines = repository.findAll();
         return operations.linhasPorRaio(buslines, lat, lng);
     }
+
+    public BusLine findBuslineById(String id) {
+        return repository.findById(id).orElseThrow(() -> new BusLineNotFoundException("Linha de ônibus não encontrada."));
+    }
 }

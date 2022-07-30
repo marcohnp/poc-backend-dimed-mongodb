@@ -40,6 +40,12 @@ public class BusLinesController {
         return busLineContractFacade.findAllBusLineWithItinerary(pageable);
     }
 
+    @ApiOperation(value = "Retorna uma linha de ônibus por id.")
+    @GetMapping(value = "itinerarios/{id}")
+    public BusLineItinerary findBuslineById(@PathVariable String id) {
+        return busLineContractFacade.findBusLineById(id);
+    }
+
     @ApiOperation(value = "Retorna as linha de ônibus da API PoaTransporte a partir das coordendas passadas dentro " +
             "de um raio de 1km. Parâmetros: Latitude(lat), Longitude(lng).")
     @GetMapping(value = "/coord")

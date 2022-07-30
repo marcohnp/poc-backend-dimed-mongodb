@@ -28,6 +28,9 @@ public class BusLineImplFacade {
         return busLineItineraryService.findAllBusLinesWithItinerary(pageable);
     }
 
+    public BusLine findBuslineById(String id) {
+        return busLineItineraryService.findBuslineById(id);
+    }
 
     public List<BusLine> findByCoordinates(double lat, double lng) {
         return busLineItineraryService.findByCoordinates(lat, lng);
@@ -44,6 +47,5 @@ public class BusLineImplFacade {
     public BusLineLocation findBusLineLocationByIdOnibus(String idOnibus) {
         return busLineLocationService.findBusLineLocationByIdOnibus(idOnibus);
     }
-
 
 }

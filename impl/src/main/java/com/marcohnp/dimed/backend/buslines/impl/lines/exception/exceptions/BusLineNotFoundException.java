@@ -5,4 +5,8 @@ public class BusLineNotFoundException extends RuntimeException {
     public BusLineNotFoundException(){
         super("Linhas de Ônibus não encontradas.");
     }
+
+    public BusLineNotFoundException(String message) {
+        super(message);
+    }
 }
